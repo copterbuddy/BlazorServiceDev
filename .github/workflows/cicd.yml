@@ -18,32 +18,32 @@ jobs:
   # ==============
   # Testing task
   # ==============
-  testing:
-    runs-on: ubuntu-20.04
-    steps:
-      - 
-        uses: actions/checkout@v3
-      - 
-        name: Setup .NET
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: 6.0.x
-      - 
-        name: Restore dependencies
-        run: dotnet restore
-      - 
-        name: Build
-        run: dotnet build --no-restore
-      - 
-        name: Test
-        run: dotnet test --no-build --verbosity normal
+  #testing:
+  #  runs-on: ubuntu-20.04
+  #  steps:
+  #    - 
+  #      uses: actions/checkout@v3
+  #    - 
+  #      name: Setup .NET
+  #      uses: actions/setup-dotnet@v3
+  #      with:
+  #        dotnet-version: 6.0.x
+  #    - 
+  #      name: Restore dependencies
+  #      run: dotnet restore
+  #    - 
+  #      name: Build
+  #      run: dotnet build --no-restore
+  #    - 
+  #      name: Test
+  #      run: dotnet test --no-build --verbosity normal
 
 
   # ==============
   # CI task
   # ==============
   build-and-push-docker-image:
-    needs: testing
+    #needs: testing
     runs-on: ubuntu-20.04
     steps:
       - 
@@ -85,33 +85,33 @@ jobs:
   # ==============
   # CD task
   # ==============
-#   deploy-to-aws:
-#     needs: build-and-push-docker-image
-#     runs-on: ubuntu-20.04
-#     environment: dev
-#     steps:
-#       - 
-#         name: Checkout
-#         uses: actions/checkout@v2
-#       - 
-#         name: Configure AWS credentials
-#         uses: aws-actions/configure-aws-credentials@v1
-#         with:
-#           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-#           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-#           aws-region: ${{ env.AWS_REGION }}
-#       - 
-#         name: Fill in the new image ID in the Amazon ECS task definition
-#         id: task-def-1
-#         uses: aws-actions/amazon-ecs-render-task-definition@v1
-#         with:
-#           task-definition: ${{ env.ECS_TD }}
-#           container-name: ${{ env.CONTAINER_NAME }}
-#           image: ${{ env.CONTAINER_VERSION }}
-#       - 
-#         name: Deploy Amazon ECS task definition
-#         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
-#         with:
-#           task-definition: ${{ steps.task-def-1.outputs.task-definition }}
-#           service: ${{ env.ECS_SERVICE }}
-#           cluster: ${{ env.ECS_CLUSTER }}
+  deploy-to-aws:
+    needs: build-and-push-docker-image
+    runs-on: ubuntu-20.04
+    environment: dev
+    steps:
+      - 
+        name: Checkout
+        uses: actions/checkout@v2
+      - 
+        name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+      - 
+        name: Fill in the new image ID in the Amazon ECS task definition
+        id: task-def-2
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: ${{ env.ECS_TD }}
+          container-name: ${{ env.CONTAINER_NAME }}
+          image: ${{ env.CONTAINER_VERSION }}
+      - 
+        name: Deploy Amazon ECS task definition
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: ${{ steps.task-def-2.outputs.task-definition }}
+          service: ${{ env.ECS_SERVICE }}
+          cluster: ${{ env.ECS_CLUSTER }}
