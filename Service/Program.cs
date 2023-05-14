@@ -77,6 +77,7 @@ public class Program
             };
         });
 
+        builder.Services.AddHealthChecks();
 
         var app = builder.Build();
 
@@ -98,6 +99,8 @@ public class Program
         app.UseAuthorization();
 
         app.MapControllers();
+
+        app.MapHealthChecks("/healthz");
 
         app.Run();
     }
