@@ -1,0 +1,90 @@
+{
+    "taskDefinitionArn": "arn:aws:ecs:ap-southeast-1:024763395437:task-definition/blazorservicedev",
+    "containerDefinitions": [
+        {
+            "name": "blazorservicedev",
+            "image": "copterbuddy/blazorservicedev",
+            "cpu": 256,
+            "memory": 512,
+            "portMappings": [
+                {
+                    "containerPort": 81,
+                    "hostPort": 81,
+                    "protocol": "tcp"
+                }
+            ],
+            "essential": true,
+            "environment": [
+                {
+                    "name": "ConnectionStrings__DefaultConnection",
+                    "value": "Server=tiny.db.elephantsql.com;Port=5432;Database=egpcfbsw;User Id=egpcfbsw;Password=XwcSRItO6L3AP0PNQjyOI3zt6mKJ8sgr;"
+                },
+                {
+                    "name": "ASPNETCORE_ENVIRONMENT",
+                    "value": "Prod"
+                },
+                {
+                    "name": "Jwt__Issuer",
+                    "value": "copterbuddy.host"
+                },
+                {
+                    "name": "Jwt__Key",
+                    "value": "copterbuddy.token"
+                },
+                {
+                    "name": "Jwt__Audience",
+                    "value": "copterbuddy.user"
+                }
+            ],
+            "mountPoints": [],
+            "volumesFrom": [],
+            "logConfiguration": {
+                "logDriver": "awslogs",
+                "options": {
+                    "awslogs-group": "/ecs/my_log_group",
+                    "awslogs-region": "ap-southeast-1",
+                    "awslogs-stream-prefix": "my_log_stream_service"
+                }
+            }
+        }
+    ],
+    "family": "blazorservicedev",
+    "taskRoleArn": "arn:aws:iam::024763395437:role/ecsTaskExecutionRole",
+    "executionRoleArn": "arn:aws:iam::024763395437:role/ecsTaskExecutionRole",
+    "networkMode": "awsvpc",
+    "volumes": [],
+    "status": "ACTIVE",
+    "requiresAttributes": [
+        {
+            "name": "com.amazonaws.ecs.capability.logging-driver.awslogs"
+        },
+        {
+            "name": "ecs.capability.execution-role-awslogs"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.19"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.task-iam-role"
+        },
+        {
+            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.18"
+        },
+        {
+            "name": "ecs.capability.task-eni"
+        }
+    ],
+    "placementConstraints": [],
+    "compatibilities": [
+        "EC2",
+        "FARGATE"
+    ],
+    "requiresCompatibilities": [
+        "FARGATE"
+    ],
+    "cpu": "256",
+    "memory": "512",
+    "registeredAt": "2023-05-17T10:08:56.843Z",
+    "registeredBy": "arn:aws:iam::024763395437:user/antonio",
+    "tags": []
+}
