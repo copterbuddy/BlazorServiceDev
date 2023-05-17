@@ -19,6 +19,8 @@ public class Program
 {
     public static async Task Main(string[] args)
     {
+        string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
         var builder = WebApplication.CreateBuilder(args);
 
         // Add services to the container.
@@ -27,7 +29,6 @@ public class Program
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
-
 
         var levelSwitch = new Serilog.Core.LoggingLevelSwitch();
         var logger = new LoggerConfiguration()
@@ -50,11 +51,23 @@ public class Program
         //builder.Logging.ClearProviders();
         builder.Logging.AddSerilog(logger);
 
-        string connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+        string connectionString = builder.Configuration.GetConnectionString("DockerConnection");
         builder.Services.AddDbContext<MyDbContext>(options =>
         options.UseNpgsql(connectionString));
         builder.Services.AddScoped<IUserService, UserService>();
         builder.Services.AddScoped<IUserRepository, UserRepository>();
+
+        builder.Services.AddCors(options =>
+        {
+            options.AddPolicy(name: MyAllowSpecificOrigins,
+                              policy =>
+                              {
+                                  policy.WithOrigins("http://blazordev-lb-web-2108187560.ap-southeast-1.elb.amazonaws.com",
+                                                      "https://blazordev-lb-web-2108187560.ap-southeast-1.elb.amazonaws.com")
+                                  .AllowAnyHeader()
+                                  .AllowAnyMethod();
+                              });
+        });
 
         builder.Services.AddAuthorization();
         builder.Services.AddAuthentication(options =>
@@ -94,6 +107,11 @@ public class Program
         app.UseStaticFiles();
 
         app.UseRouting();
+
+        //if (app.Environment.IsDevelopment() == false)
+        {
+            app.UseCors(MyAllowSpecificOrigins);
+        }
 
         app.UseAuthentication();
         app.UseAuthorization();
