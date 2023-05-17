@@ -11,7 +11,7 @@ env:
   ECS_CLUSTER: app_cluster
   CONTAINER_NAME: blazorservicedev
   CONTAINER_VERSION: copterbuddy/blazorservicedev:latest
-  ECS_SERVICE: blazor_service_dev
+  ECS_SERVICE: blazor_service_aws_ecs_service
   ECS_TD: .github/workflows/td.json
 
 jobs:
