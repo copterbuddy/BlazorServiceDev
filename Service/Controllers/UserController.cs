@@ -6,9 +6,11 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Service.DTO;
+using Microsoft.AspNetCore.Cors;
 
 namespace Service.Controllers;
 
+[EnableCors("_myAllowSpecificOrigins")]
 [ApiController]
 [Route("[controller]")]
 public class UserController : ControllerBase
