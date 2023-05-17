@@ -51,7 +51,7 @@ public class Program
         //builder.Logging.ClearProviders();
         builder.Logging.AddSerilog(logger);
 
-        string connectionString = builder.Configuration.GetConnectionString("DockerConnection");
+        string connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
         builder.Services.AddDbContext<MyDbContext>(options =>
         options.UseNpgsql(connectionString));
         builder.Services.AddScoped<IUserService, UserService>();
