@@ -17,7 +17,7 @@ FROM build AS publish
 RUN dotnet publish "Service.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
-ENV ASPNETCORE_URLS=http://+:80
+ENV ASPNETCORE_URLS=http://+:81
 #ENV ASPNETCORE_URLS=https://+:444;http://+:81
 WORKDIR /app
 COPY --from=publish /app/publish .
