@@ -62,8 +62,9 @@ public class Program
             options.AddPolicy(name: MyAllowSpecificOrigins,
                               policy =>
                               {
-                                  policy.WithOrigins("http://blazordev-lb-web-2108187560.ap-southeast-1.elb.amazonaws.com",
-                                                      "https://blazordev-lb-web-2108187560.ap-southeast-1.elb.amazonaws.com")
+                                  policy.WithOrigins("http://*.ap-southeast-1.elb.amazonaws.com",
+                                                      "http://*.ap-southeast-1.elb.amazonaws.com")
+                                  .SetIsOriginAllowedToAllowWildcardSubdomains()
                                   .AllowAnyHeader()
                                   .AllowAnyMethod();
                               });
