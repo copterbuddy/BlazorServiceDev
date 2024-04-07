@@ -64,7 +64,8 @@ public class Program
                               {
                                   policy.WithOrigins("http://*.ap-southeast-1.elb.amazonaws.com",
                                                       "https://localhost:7069",
-                                                      "http://localhost:5233"
+                                                      "http://localhost:5233",
+                                                      "https://localhost:7000"
                                                       )
                                   .SetIsOriginAllowedToAllowWildcardSubdomains()
                                   .AllowAnyHeader()
